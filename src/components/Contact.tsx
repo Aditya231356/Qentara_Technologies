@@ -1,8 +1,47 @@
 "use client";
 
+import { useState, FormEvent } from "react";
 import { Mail, Phone, MapPin, Send } from "lucide-react";
 
 export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: ""
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = (e: FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Validate form
+    if (!formData.name || !formData.email || !formData.message) {
+      alert("Please fill in all fields");
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Format WhatsApp message
+    const whatsappNumber = "919264231356";
+    const message = `*New Inquiry from Qentara Website*%0A%0A*Name:* ${encodeURIComponent(formData.name)}%0A*Email:* ${encodeURIComponent(formData.email)}%0A*Message:* ${encodeURIComponent(formData.message)}`;
+    
+    // Open WhatsApp with pre-filled message
+    window.open(`https://wa.me/${whatsappNumber}?text=${message}`, "_blank");
+    
+    setIsSubmitting(false);
+    
+    // Reset form
+    setFormData({ name: "", email: "", message: "" });
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
   return (
     <section id="contact" className="section bg-background relative">
       {/* Background decoration */}
@@ -28,7 +67,7 @@ export default function Contact() {
               Send us a Message
             </h3>
             
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               {/* Name input */}
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-slate-300 mb-2">
@@ -38,6 +77,8 @@ export default function Contact() {
                   type="text"
                   id="name"
                   name="name"
+                  value={formData.name}
+                  onChange={handleChange}
                   placeholder="John Doe"
                   className="w-full px-4 py-3 rounded-xl bg-background border border-slate-700 text-slate-50 placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                 />
@@ -52,6 +93,8 @@ export default function Contact() {
                   type="email"
                   id="email"
                   name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="john@example.com"
                   className="w-full px-4 py-3 rounded-xl bg-background border border-slate-700 text-slate-50 placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                 />
@@ -65,6 +108,8 @@ export default function Contact() {
                 <textarea
                   id="message"
                   name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   rows={5}
                   placeholder="Tell us about your project..."
                   className="w-full px-4 py-3 rounded-xl bg-background border border-slate-700 text-slate-50 placeholder-slate-500 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors resize-none"
@@ -74,10 +119,11 @@ export default function Contact() {
               {/* Submit button */}
               <button
                 type="submit"
-                className="w-full py-4 rounded-xl gradient-bg text-white font-semibold btn-glow flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="w-full py-4 rounded-xl gradient-bg text-white font-semibold btn-glow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Send className="w-5 h-5" />
-                Send Message
+                {isSubmitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>

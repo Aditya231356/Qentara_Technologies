@@ -115,10 +115,10 @@ export default function Footer() {
               © 2026 Qentara Technologies. All rights reserved.
             </p>
             <div className="flex gap-6">
-              <a href="#" className="text-slate-500 hover:text-primary text-sm transition-colors">
+              <a href="/privacy" className="text-slate-500 hover:text-primary text-sm transition-colors">
                 Privacy Policy
               </a>
-              <a href="#" className="text-slate-500 hover:text-primary text-sm transition-colors">
+              <a href="/terms" className="text-slate-500 hover:text-primary text-sm transition-colors">
                 Terms of Service
               </a>
             </div>

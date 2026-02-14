@@ -83,9 +83,14 @@ export default function Navbar() {
             <a
               href="#home"
               onClick={(e) => handleNavClick(e, "#home")}
-              className="text-xl md:text-2xl font-heading font-bold gradient-text"
+              className="flex items-center"
             >
-              Qentara Technologies
+              <img 
+                src="/logo.png" 
+                alt="Qentara Technologies" 
+                className="h-8 md:h-10 w-auto"
+              /> &nbsp;
+              <h1 className="text-xl md:text-2xl font-heading font-bold gradient-text">Qentara Technologies</h1>
             </a>
 
             {/* Desktop Navigation */}

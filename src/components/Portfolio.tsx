@@ -7,31 +7,37 @@ const projects = [
     title: "Agriguard",
     description: "A full-featured online agriculture service provider model, which provides the services related to agriculture in online mode.",
     image: "/images/agriguard.png",
+    url: "https://agri-guard-1ibm.vercel.app/",
   },
   {
-    title: "SaaS Dashboard",
-    description: "Modern analytics dashboard with real-time data visualization and user management features.",
-    image: "bg-gradient-to-br from-secondary/20 to-accent/20",
+    title: "Royal Cards Studio",
+    description: "A website provides online card booking and home delivery features.",
+    image: "/images/cards.png",
+    url: "https://royal-cards-studio.vercel.app/",
   },
   {
-    title: "Healthcare App",
-    description: "Patient management system with appointment scheduling and telemedicine integration.",
-    image: "bg-gradient-to-br from-accent/20 to-primary/20",
+    title: "Rajan Carpenters and Interior Design",
+    description: "A website for a carpenter shop named as Rajan Carpenters and Interior Design.",
+    image: "/images/carpenter.png",
+    url: "https://gilded-figolla-877676.netlify.app/",
   },
   {
-    title: "Real Estate Platform",
+    title: "Aditya Ojha Portfolio",
     description: "Property listing website with advanced search filters and virtual tour functionality.",
-    image: "bg-gradient-to-br from-emerald-500/20 to-cyan-500/20",
+    image: "/images/Aditya.png",
+    url: "https://aditya231356.github.io/Aditya-Portfolio/",
   },
   {
     title: "Food Delivery App",
     description: "Mobile-first food delivery platform with real-time tracking and payment integration.",
     image: "bg-gradient-to-br from-orange-500/20 to-red-500/20",
+    url: null,
   },
   {
     title: "Corporate Website",
     description: "Premium corporate website with brand-focused design and lead generation capabilities.",
     image: "bg-gradient-to-br from-blue-500/20 to-indigo-500/20",
+    url: null,
   },
 ];
 
@@ -62,10 +68,18 @@ export default function Portfolio() {
               className="group rounded-2xl bg-card-bg border border-slate-800 overflow-hidden card-glow hover:-translate-y-2 transition-all duration-300"
             >
               {/* Image placeholder */}
-              <div className={`h-48 ${project.image} flex items-center justify-center`}>
-                <span className="text-slate-600 text-4xl font-bold opacity-30">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+              <div className={`h-48 ${project.image.startsWith('/') ? '' : project.image} flex items-center justify-center overflow-hidden`}>
+                {project.image.startsWith('/') ? (
+                  <img 
+                    src={project.image} 
+                    alt={project.title}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <span className="text-slate-600 text-4xl font-bold opacity-30">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
+                )}
               </div>
 
               {/* Content */}
@@ -76,10 +90,22 @@ export default function Portfolio() {
                 <p className="text-slate-400 mb-4">
                   {project.description}
                 </p>
-                <button className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all">
-                  View Project
-                  <ArrowUpRight className="w-4 h-4" />
-                </button>
+                {project.url ? (
+                  <a 
+                    href={project.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-primary font-medium hover:gap-3 transition-all"
+                  >
+                    View Project
+                    <ArrowUpRight className="w-4 h-4" />
+                  </a>
+                ) : (
+                  <span className="inline-flex items-center gap-2 text-slate-500 font-medium cursor-not-allowed">
+                    Coming Soon
+                    <ArrowUpRight className="w-4 h-4" />
+                  </span>
+                )}
               </div>
             </div>
           ))}
