@@ -16,7 +16,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Qentara Technologies | Premium Web Development Agency",
+  title: {
+    default: "Qentara Technologies | Premium Web Development Agency",
+    template: "%s | Qentara Technologies",
+  },
   description:
     "Qentara Technologies is a modern web development agency that builds high-performance, scalable, and SEO-optimized websites for startups, small businesses, and growing enterprises.",
   keywords: [
@@ -28,11 +31,16 @@ export const metadata: Metadata = {
     "UI/UX design",
   ],
   authors: [{ name: "Qentara Technologies" }],
+  icons: {
+    icon: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     title: "Qentara Technologies | Premium Web Development Agency",
     description:
       "We Build High-Performance Websites for Growing Businesses",
     type: "website",
+    images: ["/logo.png"],
   },
 };
 
