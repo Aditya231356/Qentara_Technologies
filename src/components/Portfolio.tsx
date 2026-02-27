@@ -19,7 +19,7 @@ const projects = [
     title: "Rajan Carpenters and Interior Design",
     description: "A website for a carpenter shop named as Rajan Carpenters and Interior Design.",
     image: "/images/carpenter.png",
-    url: "https://gilded-figolla-877676.netlify.app/",
+    url: "https://rajancarpenters.netlify.app/",
   },
   {
     title: "Aditya Ojha Portfolio",
