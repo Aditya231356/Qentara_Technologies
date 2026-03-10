@@ -119,6 +119,7 @@ export default function Pricing() {
       setIsSubmitting(false);
     }
   };
+
   return (
     <section className="section bg-card-bg relative">
       {/* Background decoration */}
@@ -308,3 +309,4 @@ export default function Pricing() {
     </section>
   );
 }
+
