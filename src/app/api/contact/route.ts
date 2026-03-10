@@ -79,8 +79,20 @@ export async function POST(request: Request) {
     );
   } catch (error) {
     console.error('Error sending email:', error);
+    
+    // Provide more specific error messages
+    let errorMessage = 'Failed to send email';
+    
+    if (String(error).includes('Invalid login') || String(error).includes('authentication')) {
+      errorMessage = 'Email authentication failed. Please check SMTP settings.';
+    } else if (String(error).includes('ECONNREFUSED')) {
+      errorMessage = 'Unable to connect to email server. Please try again later.';
+    } else if (!process.env.SMTP_PASS) {
+      errorMessage = 'Email service not configured. Please contact support.';
+    }
+    
     return NextResponse.json(
-      { message: 'Failed to send email', error: String(error) },
+      { message: errorMessage, error: String(error) },
       { status: 500 }
     );
   }
