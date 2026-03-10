@@ -1,22 +1,24 @@
-# Qentara Technologies Website Enhancement Plan
+# TODO: Next.js + Tailwind CSS Improvements
 
-## Task: Enhance website with 3D animations and floating tech icons while preserving all functionality
+## Phase 1: Create Navbar Component
+- [ ] Create src/components/Navbar.tsx with responsive sticky navbar
 
-### Current Status: ✅ Complete
+## Phase 2: Update Layout
+- [ ] Update src/app/layout.tsx - add overflow-x-hidden, import Navbar
 
-### Todo List:
-- [x] 1. Create FloatingTechIcons component with AI, ML, DL, React, Python, Node.js, AWS, etc. icons
-- [x] 2. Add FloatingTechIcons to Hero section
-- [x] 3. Add 3D tilt effect library and enhance card hover effects
-- [x] 4. Enhance background animations with more depth
-- [x] 5. Add enhanced animations to globals.css
-- [x] 6. Update Hero section with better 3D effects
-- [x] 7. Enhance About section with 3D card effects
-- [x] 8. Enhance Services section with improved cards
-- [x] 9. Enhance Portfolio section with better hover effects
-- [x] 10. Enhance Process section timeline
-- [x] 11. Enhance Pricing cards with 3D effects
-- [x] 12. Enhance Contact section with improved styling
-- [x] 13. Enhance Footer with improved styling
-- [x] 14. Test all functionality works correctly
+## Phase 3: Update Page
+- [ ] Update src/app/page.tsx - import Navbar component
 
+## Phase 4: Update Section Components
+- [ ] Update Hero.tsx - improve responsiveness
+- [ ] Update About.tsx - fix container and spacing
+- [ ] Update Services.tsx - fix container and spacing
+- [ ] Update Portfolio.tsx - fix container and spacing
+- [ ] Update Contact.tsx - fix container and spacing
+- [ ] Update Footer.tsx - fix container and spacing
+- [ ] Update Process.tsx - fix container and spacing (if needed)
+- [ ] Update Testimonials.tsx - fix container and spacing (if needed)
+- [ ] Update Pricing.tsx - fix container and spacing (if needed)
+
+## Phase 5: Verify
+- [ ] Verify all changes work together

@@ -3,22 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Privacy Policy | Qentara Technologies",
   description:
-    "Privacy Policy for Qentara Technologies - Learn how we protect your personal information. We are a leading web development agency in India committed to data privacy and security.",
-  keywords: [
-    "privacy policy",
-    "data protection",
-    "personal information",
-    "Qentara Technologies privacy",
-    "web development company India",
-  ],
-  alternates: {
-    canonical: "https://qentara.in/privacy",
-  },
-  openGraph: {
-    title: "Privacy Policy | Qentara Technologies",
-    description: "Privacy Policy for Qentara Technologies - Learn how we protect your personal information.",
-    url: "https://qentara.in/privacy",
-  },
+    "Privacy Policy for Qentara Technologies - Premium Web Development Agency in India",
 };
 
 export default function Page() {

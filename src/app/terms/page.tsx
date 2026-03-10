@@ -3,22 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Terms & Conditions | Qentara Technologies",
   description:
-    "Terms and Conditions for Qentara Technologies. Read our terms of service for web development, e-commerce solutions, and digital services in India.",
-  keywords: [
-    "terms and conditions",
-    "terms of service",
-    "web development terms",
-    "Qentara Technologies terms",
-    "service agreement",
-  ],
-  alternates: {
-    canonical: "https://qentara.in/terms",
-  },
-  openGraph: {
-    title: "Terms & Conditions | Qentara Technologies",
-    description: "Terms and Conditions for Qentara Technologies - Read our terms of service.",
-    url: "https://qentara.in/terms",
-  },
+    "Terms and Conditions for Qentara Technologies - Premium Web Development Agency in India",
 };
 
 export default function TermsPage() {
