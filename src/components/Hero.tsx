@@ -9,13 +9,36 @@ export default function Hero() {
   const [isVisible, setIsVisible] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [typedText, setTypedText] = useState("");
   const heroRef = useRef<HTMLElement>(null);
+
+  const textToType = "High-Performance";
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
+  // Typing animation effect
   useEffect(() => {
+    let index = 0;
+    const typingInterval = setInterval(() => {
+      if (index <= textToType.length) {
+        setTypedText(textToType.slice(0, index));
+        index++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 100);
+
+    return () => clearInterval(typingInterval);
+  }, []);
+
+  // Mouse tracking - only on desktop (not mobile/touch)
+  useEffect(() => {
+    // Check if device supports hover (desktop) - skip on touch devices
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) return;
+
     const handleMouseMove = (e: MouseEvent) => {
       if (heroRef.current) {
         const rect = heroRef.current.getBoundingClientRect();
@@ -105,7 +128,16 @@ export default function Hero() {
         {/* Main headline */}
         <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-heading font-bold mb-4 md:mb-6 leading-tight">
           <span className="text-slate-50">We Build </span>
-          <span className="gradient-text">High-Performance</span>
+          <span className="gradient-text">{typedText}</span>
+          <span 
+            className="typing-cursor" 
+            style={{ 
+              color: '#06b6d4',
+              textShadow: '0 0 10px #06b6d4, 0 0 20px #06b6d4'
+            }}
+          >
+            |
+          </span>
           <br />
           <span className="text-slate-50">Websites for Growing Businesses</span>
         </h1>
