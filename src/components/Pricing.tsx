@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Check, X, Send, User, Mail, Phone, CheckCircle } from "lucide-react";
+import { Check, X, Send, User, Mail, Phone, CheckCircle, Sparkles } from "lucide-react";
+import { useEffect, useRef, useState as useVisibilityState } from "react";
+import FloatingTechIcons from "./FloatingTechIcons";
 
 const plans = [
   {
@@ -63,6 +65,27 @@ export default function Pricing() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isVisible, setIsVisible] = useVisibilityState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const handleGetStarted = (plan: typeof plans[0]) => {
     setSelectedPlan(plan);
@@ -121,64 +144,83 @@ export default function Pricing() {
   };
 
   return (
-    <section className="section bg-card-bg relative">
+    <section 
+      ref={sectionRef}
+      className="py-16 md:py-20 lg:py-28 bg-card-bg relative overflow-hidden"
+    >
       {/* Background decoration */}
-      <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl float-animation" />
+      <div className="absolute bottom-0 left-0 w-64 h-64 bg-accent/10 rounded-full blur-3xl float-animation-reverse" />
+      
+      {/* Floating elements */}
+      <div className="absolute top-20 left-1/4 w-3 h-3 bg-primary/40 rounded-full float-animation" />
+      <div className="absolute top-40 right-20 w-2 h-2 bg-accent/50 rounded-full float-animation-reverse" />
+      <div className="absolute bottom-30 right-1/3 w-4 h-4 bg-secondary/30 rounded-full float-animation" style={{ animationDelay: "1s" }} />
 
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
+      {/* Floating Tech Icons */}
+      <FloatingTechIcons />
+
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Section header */}
-        <div className="text-center mb-16">
-          <span className="text-sm font-medium text-primary uppercase tracking-wider">Pricing</span>
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-heading font-bold mt-4 mb-6">
+        <div className={`text-center mb-12 md:mb-16 transition-all duration-700 ${
+          isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+        }`}>
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs md:text-sm font-medium uppercase tracking-wider mb-4">
+            <Sparkles className="w-3 h-3" />
+            Pricing
+          </span>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-heading font-bold mt-3 md:mt-4 mb-4 md:mb-6">
             Simple, <span className="gradient-text">Transparent</span> Pricing
           </h2>
-          <p className="text-lg text-slate-400 max-w-2xl mx-auto">
+          <p className="text-sm md:text-base lg:text-lg text-slate-400 max-w-xl md:max-w-2xl mx-auto">
             Choose the perfect plan for your business. All plans include a dedicated project manager and regular updates.
           </p>
         </div>
 
         {/* Pricing cards */}
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6">
           {plans.map((plan, index) => (
             <div
               key={index}
-              className={`relative p-8 rounded-2xl border transition-all duration-300 ${
+              className={`relative p-5 md:p-6 lg:p-8 rounded-2xl border transition-all duration-500 ${
+                isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+              } ${
                 plan.popular
-                  ? "bg-background border-primary card-glow scale-105"
-                  : "bg-background border-slate-800 card-glow hover:-translate-y-2"
+                  ? "bg-background border-primary card-glow scale-100 md:scale-105 z-10 shadow-lg shadow-primary/10"
+                  : "bg-background/80 border-slate-700/50 card-glow hover:-translate-y-2"
               }`}
+              style={{ transitionDelay: `${index * 150}ms` }}
             >
               {/* Popular badge */}
               {plan.popular && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full gradient-bg text-white text-sm font-medium">
+                <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full gradient-bg text-white text-xs font-medium whitespace-nowrap shadow-lg">
                   Most Popular
                 </div>
               )}
 
               {/* Plan name */}
-              <h3 className="text-xl font-heading font-semibold text-slate-50 mb-2">
+              <h3 className="text-lg md:text-xl font-heading font-semibold text-slate-50 mb-2">
                 {plan.name}
               </h3>
 
               {/* Price */}
-              <div className="mb-4">
-                <span className="text-4xl font-heading font-bold gradient-text">
+              <div className="mb-3 md:mb-4">
+                <span className="text-3xl md:text-4xl font-heading font-bold gradient-text">
                   {plan.price}
                 </span>
               </div>
 
               {/* Description */}
-              <p className="text-slate-400 mb-6">{plan.description}</p>
+              <p className="text-sm text-slate-400 mb-5 md:mb-6">{plan.description}</p>
 
               {/* Features */}
-              <ul className="space-y-3 mb-8">
+              <ul className="space-y-2 md:space-y-3 mb-6 md:mb-8">
                 {plan.features.map((feature, featureIndex) => (
-                  <li key={featureIndex} className="flex items-center gap-3 text-slate-300">
-                    <div className="w-5 h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0">
-                      <Check className="w-3 h-3 text-primary" />
+                  <li key={featureIndex} className="flex items-start gap-2 md:gap-3 text-slate-300 text-sm">
+                    <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-primary/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check className="w-2.5 h-2.5 md:w-3 md:h-3 text-primary" />
                     </div>
-                    {feature}
+                    <span>{feature}</span>
                   </li>
                 ))}
               </ul>
@@ -186,10 +228,10 @@ export default function Pricing() {
               {/* CTA Button */}
               <button
                 onClick={() => handleGetStarted(plan)}
-                className={`w-full py-4 rounded-xl font-semibold transition-all ${
+                className={`w-full py-3 md:py-4 rounded-xl font-semibold transition-all text-sm md:text-base ${
                   plan.popular
-                    ? "gradient-bg text-white btn-glow"
-                    : "bg-slate-800 text-slate-50 hover:bg-slate-700 border border-slate-700"
+                    ? "gradient-bg text-white btn-glow hover:shadow-lg hover:shadow-primary/30"
+                    : "bg-slate-800 text-slate-50 hover:bg-slate-700 border border-slate-700 hover-lift"
                 }`}
               >
                 Get Started
@@ -209,14 +251,14 @@ export default function Pricing() {
           />
 
           {/* Modal Content */}
-          <div className="relative w-full max-w-md bg-card-bg border border-slate-700 rounded-2xl shadow-2xl">
+          <div className="relative w-full max-w-md bg-card-bg border border-slate-700 rounded-2xl shadow-2xl overflow-hidden animate-border">
             {/* Header */}
-            <div className="p-6 flex items-center justify-between border-b border-slate-700">
+            <div className="p-4 md:p-6 flex items-center justify-between border-b border-slate-700">
               <div>
-                <h3 className="text-xl font-heading font-bold text-slate-50">
+                <h3 className="text-lg md:text-xl font-heading font-bold text-slate-50">
                   {selectedPlan.name} Plan
                 </h3>
-                <p className="text-primary font-semibold">{selectedPlan.price}</p>
+                <p className="text-primary font-semibold text-sm md:text-base">{selectedPlan.price}</p>
               </div>
               <button
                 onClick={handleCloseModal}
@@ -228,21 +270,21 @@ export default function Pricing() {
 
             {/* Success Message */}
             {showSuccess ? (
-              <div className="p-12 flex flex-col items-center justify-center text-center">
-                <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mb-6">
-                  <CheckCircle className="w-10 h-10 text-green-500" />
+              <div className="p-8 md:p-12 flex flex-col items-center justify-center text-center">
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-green-500/20 flex items-center justify-center mb-4 md:mb-6 animate-bounce">
+                  <CheckCircle className="w-8 h-8 md:w-10 md:h-10 text-green-500" />
                 </div>
-                <h3 className="text-2xl font-heading font-bold text-slate-50 mb-2">
+                <h3 className="text-xl md:text-2xl font-heading font-bold text-slate-50 mb-2">
                   Thank you!
                 </h3>
-                <p className="text-slate-400">
+                <p className="text-slate-400 text-sm md:text-base">
                   We will contact you soon.
                 </p>
               </div>
             ) : (
               /* Form */
-              <form onSubmit={handleSubmit} className="p-6 space-y-4">
-                <p className="text-slate-400 text-sm mb-4">
+              <form onSubmit={handleSubmit} className="p-4 md:p-6 space-y-4">
+                <p className="text-slate-400 text-sm">
                   Fill in your details and we'll get back to you about the {selectedPlan.name} plan.
                 </p>
 
@@ -296,9 +338,9 @@ export default function Pricing() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full py-4 rounded-xl gradient-bg text-white font-semibold btn-glow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 md:py-4 rounded-xl gradient-bg text-white font-semibold btn-glow flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed text-sm md:text-base hover:shadow-lg hover:shadow-primary/30"
                 >
-                  <Send className="w-5 h-5" />
+                  <Send className="w-4 h-4 md:w-5 md:h-5" />
                   {isSubmitting ? "Sending..." : "Submit Inquiry"}
                 </button>
               </form>

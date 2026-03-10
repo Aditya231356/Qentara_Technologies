@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sparkles } from "lucide-react";
 
 const navLinks = [
   { name: "Home", href: "#home" },
@@ -71,9 +71,9 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-background/95 backdrop-blur-md border-b border-slate-800 shadow-lg"
+            ? "bg-background/95 backdrop-blur-md border-b border-slate-800 shadow-lg shadow-primary/5"
             : "bg-transparent"
         }`}
       >
@@ -83,14 +83,18 @@ export default function Navbar() {
             <a
               href="#home"
               onClick={(e) => handleNavClick(e, "#home")}
-              className="flex items-center"
+              className="flex items-center gap-2 group"
             >
-              <img 
-                src="/logo.png" 
-                alt="Qentara Technologies" 
-                className="h-8 md:h-10 w-auto"
-              /> &nbsp;
-              <h1 className="text-xl md:text-2xl font-heading font-bold gradient-text">Qentara Technologies</h1>
+              <div className="relative">
+                <img 
+                  src="/logo.png" 
+                  alt="Qentara Technologies" 
+                  className="h-7 w-7 md:h-8 md:w-8 flex-shrink-0 transition-transform duration-300 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 rounded-full bg-primary/20 blur-md opacity-0 group-hover:opacity-100 transition-opacity" />
+              </div>
+              <h1 className="text-base md:text-lg lg:text-xl font-heading font-bold gradient-text hidden sm:block">Qentara Technologies</h1>
+              <h1 className="text-base md:text-lg lg:text-xl font-heading font-bold gradient-text sm:hidden">Qentara</h1>
             </a>
 
             {/* Desktop Navigation */}
@@ -100,13 +104,17 @@ export default function Navbar() {
                   key={link.name}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 group ${
                     activeSection === link.href.substring(1)
-                      ? "text-primary bg-primary/10"
-                      : "text-slate-300 hover:text-white hover:bg-white/5"
+                      ? "text-primary"
+                      : "text-slate-300 hover:text-white"
                   }`}
                 >
-                  {link.name}
+                  <span className="relative z-10">{link.name}</span>
+                  {activeSection === link.href.substring(1) && (
+                    <span className="absolute inset-0 bg-primary/10 rounded-lg animate-pulse" />
+                  )}
+                  <span className="absolute inset-0 bg-white/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity" />
                 </a>
               ))}
             </div>
@@ -116,22 +124,23 @@ export default function Navbar() {
               <a
                 href="#contact"
                 onClick={(e) => handleNavClick(e, "#contact")}
-                className="inline-flex items-center px-5 py-2.5 rounded-xl gradient-bg text-white text-sm font-semibold hover:opacity-90 transition-opacity"
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl gradient-bg text-white text-sm font-semibold hover:opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-lg hover:shadow-primary/30 group"
               >
+                <Sparkles className="w-4 h-4 group-hover:rotate-12 transition-transform" />
                 Get Started
               </a>
             </div>
 
             {/* Mobile Menu Button */}
             <button
-              className="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors"
+              className="lg:hidden p-2 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-colors relative group"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? (
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 group-hover:rotate-90 transition-transform" />
               ) : (
-                <Menu className="w-6 h-6" />
+                <Menu className="w-6 h-6 group-hover:rotate-90 transition-transform" />
               )}
             </button>
           </div>
@@ -140,23 +149,24 @@ export default function Navbar() {
 
       {/* Mobile Menu - Slide in from right */}
       <div
-        className={`lg:hidden fixed top-0 right-0 h-full w-72 bg-card-bg border-l border-slate-800 z-40 transform transition-transform duration-300 ease-in-out ${
+        className={`lg:hidden fixed top-0 right-0 h-full w-72 bg-card-bg border-l border-slate-800 z-40 transform transition-transform duration-500 ease-out ${
           isMobileMenuOpen ? "translate-x-0" : "translate-x-full"
         }`}
         style={{ top: "0" }}
       >
         <div className="pt-20 px-6">
           <div className="flex flex-col space-y-4">
-            {navLinks.map((link) => (
+            {navLinks.map((link, index) => (
               <a
                 key={link.name}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className={`text-lg font-medium py-3 px-4 rounded-lg transition-all duration-200 ${
+                className={`text-lg font-medium py-3 px-4 rounded-lg transition-all duration-300 ${
                   activeSection === link.href.substring(1)
                     ? "text-primary bg-primary/10"
                     : "text-slate-300 hover:text-white hover:bg-white/5"
                 }`}
+                style={{ transitionDelay: `${index * 50}ms` }}
               >
                 {link.name}
               </a>
@@ -164,8 +174,9 @@ export default function Navbar() {
             <a
               href="#contact"
               onClick={(e) => handleNavClick(e, "#contact")}
-              className="mt-6 inline-flex items-center justify-center px-6 py-3 rounded-xl gradient-bg text-white font-semibold"
+              className="mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl gradient-bg text-white font-semibold hover:scale-105 transition-transform"
             >
+              <Sparkles className="w-4 h-4" />
               Get Started
             </a>
           </div>
@@ -175,10 +186,11 @@ export default function Navbar() {
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
         <div
-          className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-30"
+          className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-30 animate-fade-in"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
     </>
   );
 }
+

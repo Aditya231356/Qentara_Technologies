@@ -154,6 +154,9 @@ const desktopPositions = [
   { left: '97%', top: '58%' }, { left: '94%', top: '80%' }, { left: '50%', top: '45%' }, { left: '30%', top: '40%' },
 ];
 
+// Pre-computed animation durations to avoid Math.random() in render
+const desktopDurations = [6, 7, 8, 5, 7, 6, 8, 5, 7, 6, 8, 5, 7, 6, 8, 5, 7, 6, 8, 5, 7, 6, 8, 5, 7, 6, 8, 5, 7, 6, 8, 5, 7, 6, 8, 5, 7, 6, 8, 5];
+
 const tabletPositions = [
   { left: '5%', top: '10%' }, { left: '15%', top: '30%' }, { left: '8%', top: '50%' }, { left: '20%', top: '70%' },
   { left: '12%', top: '90%' }, { left: '35%', top: '8%' }, { left: '40%', top: '28%' }, { left: '38%', top: '50%' },
@@ -182,17 +185,19 @@ export default function FloatingTechIcons() {
           return (
             <div
               key={`desktop-${index}`}
-              className="absolute animate-float opacity-25 hover:opacity-60 transition-opacity duration-500"
+              className="absolute animate-float opacity-25"
               style={{
                 left: position.left,
                 top: position.top,
                 animationDelay: `${tech.delay}s`,
-                animationDuration: `${5 + Math.random() * 3}s`,
+                animationDuration: `${desktopDurations[index]}s`,
+                willChange: 'transform',
+                transform: 'translate3d(0,0,0)',
               }}
             >
-              <div className="group relative flex flex-col items-center">
+              <div className="relative flex flex-col items-center">
                 <div 
-                  className={`${tech.color} opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:scale-125`}
+                  className={tech.color}
                   style={{ filter: 'drop-shadow(0 0 6px currentColor)' }}
                 >
                   <tech.icon size={tech.size} strokeWidth={1.5} />
@@ -210,17 +215,19 @@ export default function FloatingTechIcons() {
           return (
             <div
               key={`tablet-${index}`}
-              className="absolute animate-float opacity-30 hover:opacity-65 transition-opacity duration-500"
+              className="absolute animate-float opacity-30"
               style={{
                 left: position.left,
                 top: position.top,
                 animationDelay: `${tech.delay}s`,
-                animationDuration: `${5 + Math.random() * 3}s`,
+                animationDuration: `${desktopDurations[index]}s`,
+                willChange: 'transform',
+                transform: 'translate3d(0,0,0)',
               }}
             >
-              <div className="group relative flex flex-col items-center">
+              <div className="relative flex flex-col items-center">
                 <div 
-                  className={`${tech.color} opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:scale-125`}
+                  className={tech.color}
                   style={{ filter: 'drop-shadow(0 0 6px currentColor)' }}
                 >
                   <tech.icon size={tech.size * 0.9} strokeWidth={1.5} />
@@ -238,17 +245,19 @@ export default function FloatingTechIcons() {
           return (
             <div
               key={`mobile-${index}`}
-              className="absolute animate-float opacity-35 hover:opacity-70 transition-opacity duration-500"
+              className="absolute animate-float opacity-35"
               style={{
                 left: position.left,
                 top: position.top,
                 animationDelay: `${tech.delay}s`,
-                animationDuration: `${5 + Math.random() * 3}s`,
+                animationDuration: `${desktopDurations[index]}s`,
+                willChange: 'transform',
+                transform: 'translate3d(0,0,0)',
               }}
             >
-              <div className="group relative flex flex-col items-center">
+              <div className="relative flex flex-col items-center">
                 <div 
-                  className={`${tech.color} opacity-70 group-hover:opacity-100 transition-all duration-300 group-hover:scale-125`}
+                  className={tech.color}
                   style={{ filter: 'drop-shadow(0 0 6px currentColor)' }}
                 >
                   <tech.icon size={tech.size * 0.85} strokeWidth={1.5} />
