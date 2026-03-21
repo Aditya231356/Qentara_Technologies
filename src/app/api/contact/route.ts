@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import nodemailer from 'nodemailer';
+import { MAIL_FROM, MAIL_TO, createTransporter, escapeHtml, getMissingMailConfig } from '@/lib/mailer';
+
+export const runtime = 'nodejs';
 
 export async function POST(request: Request) {
   try {
@@ -7,22 +9,28 @@ export async function POST(request: Request) {
     
     const { name, email, message } = formData;
 
-    // Configure nodemailer transporter with Gmail SMTP
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 587,
-      secure: false,
-      auth: {
-        user: 'qentara.web@gmail.com',
-        pass: process.env.SMTP_PASS,
-      },
-    });
+    if (!name || !email || !message) {
+      return NextResponse.json(
+        { message: 'Name, email, and message are required.' },
+        { status: 400 }
+      );
+    }
+
+    const missingConfig = getMissingMailConfig();
+    if (missingConfig) {
+      return NextResponse.json(
+        { message: 'Email service not configured. Please contact support.' },
+        { status: 500 }
+      );
+    }
+
+    const transporter = createTransporter();
 
     // Email content
     const mailOptions = {
-      from: 'qentara.web@gmail.com',
-      to: 'qentara.web@gmail.com',
-      subject: `New Contact Us Message from ${name}`,
+      from: MAIL_FROM,
+      to: MAIL_TO,
+      subject: `New Contact Us Message from ${escapeHtml(name)}`,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h2 style="color: #4F46E5; border-bottom: 2px solid #4F46E5; padding-bottom: 10px;">
@@ -35,7 +43,7 @@ export async function POST(request: Request) {
                 Name:
               </td>
               <td style="padding: 10px; border-bottom: 1px solid #eee;">
-                ${name}
+                ${escapeHtml(name)}
               </td>
             </tr>
             <tr>
@@ -43,7 +51,7 @@ export async function POST(request: Request) {
                 Email:
               </td>
               <td style="padding: 10px; border-bottom: 1px solid #eee;">
-                ${email}
+                ${escapeHtml(email)}
               </td>
             </tr>
             <tr>
@@ -51,7 +59,7 @@ export async function POST(request: Request) {
                 Message:
               </td>
               <td style="padding: 10px; border-bottom: 1px solid #eee;">
-                ${message}
+                ${escapeHtml(message)}
               </td>
             </tr>
           </table>
