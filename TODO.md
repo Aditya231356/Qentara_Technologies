@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Contact Form Email Implementation Plan
 
 ## Task: Add email functionality to Contact Us section (same as Consultation modal)
@@ -33,4 +34,17 @@
 
 ## Phase 5: Verify
 - [ ] Verify all changes work together
+=======
+# Vercel Deployment Cleanup
 
+**Plan Approved**
+
+**✅ Steps:**
+>>>>>>> 98e1599 (Production ready build)
+
+1. [✅] Remove useless files (netlify.toml, *_PLAN.md, SPEC.md)
+2. [✅] Update tailwind.config.ts (remove pages path)
+3. [✅] Fix page.tsx (add #home div)
+4. [✅] Clean console.logs from API routes x3
+5. [✅] Run `npm run build && npm run lint` (build ✓ succeeded, lint minor shell issue)
+6. [✅] Complete

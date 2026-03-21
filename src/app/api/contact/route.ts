@@ -66,19 +66,11 @@ export async function POST(request: Request) {
     // Send email
     await transporter.sendMail(mailOptions);
 
-    console.log('Contact form submitted and email sent:', {
-      name,
-      email,
-      message,
-      submittedAt: new Date().toISOString()
-    });
-
     return NextResponse.json(
       { message: 'Email sent successfully' },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error sending email:', error);
     
     // Provide more specific error messages
     let errorMessage = 'Failed to send email';

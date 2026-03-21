@@ -98,23 +98,11 @@ export async function POST(request: Request) {
     // Send email
     await transporter.sendMail(mailOptions);
 
-    console.log('Consultation form submitted and email sent:', {
-      name,
-      organisation,
-      email,
-      phone,
-      query,
-      workType,
-      description,
-      submittedAt: new Date().toISOString()
-    });
-
     return NextResponse.json(
       { message: 'Email sent successfully' },
       { status: 200 }
     );
   } catch (error) {
-    console.error('Error sending email:', error);
     
     // Provide more specific error messages
     let errorMessage = 'Failed to send email';
